@@ -65,10 +65,7 @@ function App() {
   return (
     <div className="App">
       <h1>
-        Example React component with{" "}
-        <a href="https://github.com/hiukim/mind-ar-js" target="_blank">
-          MindAR
-        </a>
+        SPYC 45th AR
       </h1>
 
       <div>
