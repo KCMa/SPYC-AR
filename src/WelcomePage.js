@@ -1,7 +1,12 @@
 function WelcomePage() {
+  const takeScreenshot = () => {
+    document
+      .querySelector("a-scene")
+      .components.screenshot.capture("perspective");
+  };
+
   return (
     <div className="WelcomePage">
-      <h1>Welcome to SPYC AR App</h1>
       <a-scene physics>
         <a-box
           position="-1 4 -3"
@@ -25,12 +30,30 @@ function WelcomePage() {
           static-body
         ></a-plane>
         <a-sky color="#ECECEC"></a-sky>
-        <a-asset-item
-          id="avatarModel"
-          src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/examples/image-tracking/assets/card-example/softmind/scene.gltf"
-        ></a-asset-item>
+
+        <a-assets>
+          <a-asset-item
+            id="tree"
+            src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/examples/image-tracking/assets/card-example/softmind/scene.gltf"
+          ></a-asset-item>
+        </a-assets>
+
+        {/* <!-- Using the asset management system. --> */}
+        <a-gltf-model
+          src="#tree"
+          position="0 2 -5"
+          rotation="0 0 0"
+          scale="0.02 0.02 0.02"
+        ></a-gltf-model>
+
       </a-scene>
-      <button>Start</button>
+      <h1>Welcome to SPYC AR App</h1>
+      <button
+        style={{ "z-index": 9999, position: "absolute" }}
+        onClick={takeScreenshot}
+      >
+        Take a screenshot
+      </button>
     </div>
   );
 }
