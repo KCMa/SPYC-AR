@@ -4,6 +4,7 @@ import "./App.css";
 import "aframe";
 import "mind-ar/dist/mindar-image-aframe.prod.js";
 import MindARViewer from "./mindar-viewer";
+import { Badge, Button } from "react-bootstrap";
 
 function App() {
   const [started, setStarted] = useState(null);
@@ -79,9 +80,13 @@ function App() {
         </div>
       )}
       {started && (
-        <button className="control-buttons" onClick={takePicture}>
+        <Button
+          className="control-buttons"
+          variant="primary"
+          onClick={takePicture}
+        >
           Take a picture
-        </button>
+        </Button>
       )}
     </div>
   );
