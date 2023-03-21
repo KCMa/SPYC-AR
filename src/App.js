@@ -4,7 +4,6 @@ import "./App.css";
 import "aframe";
 import "mind-ar/dist/mindar-image-aframe.prod.js";
 import MindARViewer from "./mindar-viewer";
-import { checkDeviceSupport } from "./Functions";
 
 function App() {
   const [started, setStarted] = useState(null);
@@ -80,7 +79,7 @@ function App() {
         </div>
       )}
       {started && (
-        <button className="control-buttons" onClick={checkDeviceSupport}>
+        <button className="control-buttons" onClick={takePicture}>
           Take a picture
         </button>
       )}
