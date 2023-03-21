@@ -1,0 +1,29 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+}
+
+.control-buttons {
+  position: absolute;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+}
+
+.container {
+  overflow: hidden;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+/* margin: 20px auto;
+position: relative;
+height: 300px;
+width: 600px;
+overflow: hidden; */

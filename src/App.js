@@ -1,134 +1,60 @@
 import React, { useState } from "react";
 import "mind-ar/dist/mindar-image.prod.js";
+import "./App.css";
 import "aframe";
 import "mind-ar/dist/mindar-image-aframe.prod.js";
 import MindARViewer from "./mindar-viewer";
-import $ from "jquery";
-
-// const { JSDOM } = require("jsdom");
-// const { window } = new JSDOM("");
-// const $ = require("jquery")(window);
+import { checkDeviceSupport } from "./Functions";
 
 function App() {
-  const [started, setStarted] = useState(false);
-  const takePicture = () => {
-    document.querySelector("video").pause();
+  const [started, setStarted] = useState(null);
 
-    const video = document.getElementsByTagName("video")[0];
+  const takePicture = () => {
+    const video = document.getElementsByTagName("video")[1];
+    console.log(video);
+    video.pause();
 
     const canvas = document.createElement("canvas");
+    let v_width = video.clientWidth;
+    console.log(video.clientWidth);
 
-    var window_width = $(window).outerWidth();
-    var window_height = $(window).outerHeight();
+    let v_height = video.clientHeight;
+    console.log(video.clientHeight);
 
-    var v_width = $(video).outerWidth();
-    var v_height = $(video).outerHeight();
+    canvas.width = v_width;
+    canvas.height = v_height;
 
-    var a_width =
-      document.querySelector("a-scene").components.screenshot.data.width * 0.5;
-    var a_height =
-      document.querySelector("a-scene").components.screenshot.data.height * 0.5;
-    canvas.width = $(window).outerWidth();
-    canvas.height = $(window).outerHeight();
+    // let element = document.querySelector("video"),
+    let style = window.getComputedStyle(video),
+      top = style.getPropertyValue("top");
 
     canvas
       .getContext("2d")
-      .drawImage(
-        video,
-        0,
-        parseFloat($("video").css("top")),
-        v_width,
-        v_height
-      );
+      .drawImage(video, 0, parseFloat(top), v_width, v_height);
 
-    var imgData = document
+    let imgData = document
       .querySelector("a-scene")
       .components.screenshot.getCanvas("perspective");
 
-    canvas
-      .getContext("2d")
-      .drawImage(imgData, 0, 0, window_width, window_height);
+    canvas.getContext("2d").drawImage(imgData, 0, 0, v_width, v_height);
 
     if (window.navigator.msSaveOrOpenBlob) {
       var blobObject = canvas.msToBlob();
-      window.navigator.msSaveOrOpenBlob(blobObject, "download.png");
+      window.navigator.msSaveOrOpenBlob(blobObject, "SPYC45th.png");
     } else {
       var a = document.createElement("a");
       a.href = canvas.toDataURL("image/jpeg");
-      console.log(a.href);
-      a.download = "download.jpeg";
+      a.download = "SPYC45th.jpeg";
       a.click();
     }
-    document.querySelector("video").play();
+    video.play();
   };
-
-
-
-
-  const takeScreenshot = () => {
-    document
-      .querySelector("a-scene")
-      .components.screenshot.capture("perspective");
-  };
-
-
 
   return (
     <div className="App">
-      <h1>
-        SPYC 45th AR
-      </h1>
-
-
- 
-
-      <a-scene physics style={{zIndex: 0}}>
-        <a-box
-          position="-1 4 -3"
-          rotation="0 45 0"
-          color="#4CC3D9"
-          dynamic-body
-        ></a-box>
-
-
-        <a-plane
-          position="0 0 -4"
-          rotation="-90 0 0"
-          width="4"
-          height="4"
-          color="#7BC8A4"
-          static-body
-        ></a-plane>
-        <a-sky color="#ECECEC"></a-sky>
-
-        <a-assets>
-          <a-asset-item
-            id="tree"
-            src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/examples/image-tracking/assets/card-example/softmind/scene.gltf"
-          ></a-asset-item>
-        </a-assets>
-
-        {/* <!-- Using the asset management system. --> */}
-        <a-gltf-model
-          src="#tree"
-          position="0 2 -5"
-          rotation="0 0 0"
-          scale="0.02 0.02 0.02"
-        ></a-gltf-model>
-
-      </a-scene>
-      <h1>Welcome to SPYC AR App</h1>
-      <button
-        style={{ "z-index": 9999, position: "absolute" }}
-        onClick={takeScreenshot}
-      >
-        Take a screenshot
-      </button>
-
-
-      {!started && (
-        <button
-        style={{ "z-index": 9999, position: "absolute" }}
+      <div className="control-buttons">
+        {started === null && (
+          <button
             onClick={() => {
               setStarted(true);
             }}
@@ -136,17 +62,16 @@ function App() {
             Start
           </button>
         )}
-        {started && (
+        {/* {!started  && (
           <button
-        style={{ "z-index": 9999, position: "absolute" }}
-
             onClick={() => {
               setStarted(false);
             }}
           >
             Stop
           </button>
-        )}
+        )} */}
+      </div>
 
       {started && (
         <div className="container">
@@ -154,7 +79,11 @@ function App() {
           <video></video>
         </div>
       )}
-      <button onClick={takePicture}>Take Picture</button>
+      {started && (
+        <button className="control-buttons" onClick={checkDeviceSupport}>
+          Take a picture
+        </button>
+      )}
     </div>
   );
 }

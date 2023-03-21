@@ -1,14 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import ScreenCaptureFunction from './screenCapture';
-import WelcomePage from './WelcomePage';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import WelcomePage from "./WelcomePage";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ScreenCaptureFunction />
+    <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
-
