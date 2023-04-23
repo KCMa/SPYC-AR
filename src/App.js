@@ -52,6 +52,7 @@ function App() {
 
   return (
     <div className="App">
+
       <div className="control-buttons">
         {started === null && (
           <button
